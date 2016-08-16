@@ -24,9 +24,9 @@ end debounce;
 architecture debounce_arch of debounce is
 
 -- 3 bit shift register
-signal shft : std_logic_vector (2 downto 0);
+signal shft : std_logic_vector (2 downto 0) := "000";
 -- 6 bit counter to induce 'tck' pulse
-signal cnt  : std_logic_vector (5 downto 0);
+signal cnt  : std_logic_vector (5 downto 0) := "000000";
 -- tick signal to sample button
 signal tck  : std_logic;
 
@@ -42,27 +42,27 @@ begin
                '0' when others;
 
     -- handle counter
-    -- increment at clk edge, async reset falling edge btn_i
-    cnt_proc : process (clk, btn_i)
+    -- increment at clk edge, sync reset btn_i
+    cnt_proc : process (clk)
     begin
-        if (falling_edge(btn_i)) then
-            cnt <= "000000";
-        elsif (rising_edge(clk)) then
-            cnt <= cnt + "000001";
+        if (rising_edge(clk)) then
+            if (btn_i = '0') then
+                cnt <= "000000";
+            else
+                cnt <= cnt + '1';
+            end if;
         end if;
     end process cnt_proc;
 
     -- handle shift register
-    -- sample button when tck is high, async reset falling edge btn_i
-    shft_proc : process (clk, btn_i)
+    -- sample button when tck is high, sync reset btn_i
+    shft_proc : process (clk)
     begin
-        if (falling_edge(btn_i)) then
-            shft <= "000";
-        elsif (rising_edge(clk)) then
-            if (tck = '1') then
-                shft(2) <= shft(1);
-                shft(1) <= shft(0);
-                shft(0) <= '1';
+        if (rising_edge(clk)) then
+            if (btn_i = '0') then
+                shft <= "000";
+            elsif (tck = '1') then
+                shft <= shft(1 downto 0) & '1';
             end if;
         end if;
     end process shft_proc;
