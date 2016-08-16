@@ -13,14 +13,11 @@ use ieee.std_logic_unsigned.all;
 
 entity debounce is
     port (
-        -- clock signal
-        clk : in  std_logic;
+        clk : in  std_logic;        -- clock signal
 
-        -- btn input
-        btn_i : in  std_logic;
+        btn_i : in  std_logic;      -- btn input
 
-        -- clean btn output
-        btn_d : out std_logic
+        btn_d : out std_logic       -- clean btn output
     );
 end debounce;
 
