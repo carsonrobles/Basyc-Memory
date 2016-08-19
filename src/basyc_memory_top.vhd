@@ -16,7 +16,12 @@ entity basyc_memory_top is
         clk : in  std_logic;                            -- clock input
         rst : in  std_logic;                            -- reset signal
 
-        btn : in  std_logic_vector (3 downto 0);        -- user input buttons
+        btn : in  std_logic_vector ( 3 downto 0);        -- user input buttons
+
+        an  : out std_logic_vector ( 3 downto 0);        -- anode out
+        seg : out std_logic_vector ( 7 downto 0);        -- cathode out
+
+        led : out std_logic_vector (15 downto 0)        -- led out
     );
 end basyc_memory_top;
 

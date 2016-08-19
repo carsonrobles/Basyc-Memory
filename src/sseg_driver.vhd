@@ -23,7 +23,7 @@ entity sseg_driver is
     );
 end sseg_driver;
 
-architecture sseg_driver_arc of sseg_dcdr is
+architecture sseg_driver_arc of sseg_driver is
 
 -- decodes 4 bit value to seven segment display
 component sseg_dcdr is
@@ -89,6 +89,7 @@ begin
 
     -- select window of data to decode
     d_proc : process (clk)
+    begin
         if (rising_edge(clk)) then
             case (a_sel) is
                 when "0001" => d_sel <= data( 3 downto  0);
@@ -98,5 +99,6 @@ begin
                 when others => d_sel <= "0000";
             end case;
         end if;
+    end process d_proc;
 end sseg_driver_arc;
 

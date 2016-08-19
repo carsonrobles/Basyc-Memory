@@ -22,12 +22,11 @@ end sseg_dcdr;
 architecture sseg_dcdr_arc of sseg_dcdr is
 begin
     -- decode digits 1, 2, 3, 4; others are blank (invalid)
-    case (dig) is
-        when "0001" => seg <= "11111001";
-        when "0010" => seg <= "10100100";
-        when "0011" => seg <= "10110000";
-        when "0100" => seg <= "10011001";
-        when others => seg <= "11111111";
-    end case;
+    with dig select
+        seg <= "11111001" when "0001",
+               "10100100" when "0010",
+               "10110000" when "0011",
+               "10011001" when "0100",
+               "11111111" when others;
 end sseg_dcdr_arc;
 
