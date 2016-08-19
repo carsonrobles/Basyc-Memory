@@ -60,7 +60,7 @@ begin
         if (rising_edge(clk)) then
             cnt <= cnt + 1;
         end if;
-    end process tck_proc;
+    end process cnt_proc;
 
     -- pulse tck signal when cnt overflows
     tck_proc : process (clk)
