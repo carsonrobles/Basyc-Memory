@@ -53,7 +53,6 @@ begin
     -- assign active low an to active high temp signal
     an <= not a_sel;
 
-
     -- increment cnt at posedge clk
     cnt_proc : process (clk)
     begin
