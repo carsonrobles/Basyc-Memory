@@ -11,11 +11,11 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 -- empty sim entity because it does not connect to anything on the board
-entity sim is
-end sim;
+entity debounce_tb is
+end debounce_tb;
 
 -- sim architecture
-architecture test_bench of sim is
+architecture test_bench of debounce_tb is
 -- declare module to test
 component debounce is
     port (
