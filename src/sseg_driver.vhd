@@ -53,6 +53,14 @@ begin
     -- assign active low an to active high temp signal
     an <= not a_sel;
 
+    -- select window of data to decode
+    with a_sel select
+        d_sel <= data( 3 downto  0) when "0001",
+                 data( 7 downto  4) when "0010",
+                 data(11 downto  8) when "0100",
+                 data(15 downto 12) when "1000",
+                 "0000"             when others;
+
     -- increment cnt at posedge clk
     cnt_proc : process (clk)
     begin
@@ -77,27 +85,13 @@ begin
     an_proc : process (clk)
     begin
         if (rising_edge(clk)) then
-            if (tck = '1') then
+            --if (tck = '1') then
                 a_sel(3) <= a_sel(2);
                 a_sel(2) <= a_sel(1);
                 a_sel(1) <= a_sel(0);
                 a_sel(0) <= a_sel(3);
-            end if;
+            --end if;
         end if;
     end process an_proc;
-
-    -- select window of data to decode
-    d_proc : process (clk)
-    begin
-        if (rising_edge(clk)) then
-            case (a_sel) is
-                when "0001" => d_sel <= data( 3 downto  0);
-                when "0010" => d_sel <= data( 7 downto  4);
-                when "0100" => d_sel <= data(11 downto  8);
-                when "1000" => d_sel <= data(15 downto 12);
-                when others => d_sel <= "0000";
-            end case;
-        end if;
-    end process d_proc;
 end sseg_driver_arc;
 
