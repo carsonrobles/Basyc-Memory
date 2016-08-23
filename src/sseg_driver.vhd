@@ -11,7 +11,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
--- decodes 4 bit value to seven segment display
+-- writes 16-bit value to the seven segment display
 entity sseg_driver is
     port (
         clk  : in  std_logic;                           -- clock signal
@@ -34,14 +34,10 @@ component sseg_dcdr is
     );
 end component sseg_dcdr;
 
--- tick signal pulses when to switch anodes
-signal tck   : std_logic                      := '0';
--- temp anode select signal; ease with active low an signal
-signal a_sel : std_logic_vector ( 3 downto 0) := "0001";
--- 4-bit data select
-signal d_sel : std_logic_vector ( 3 downto 0) := "0000";
--- counter
-signal cnt   : std_logic_vector (15 downto 0) := (others => '0');
+signal tck   : std_logic                      := '0';               -- tick signal pulses when to switch anodes
+signal a_sel : std_logic_vector ( 3 downto 0) := "0001";            -- temp anode select signal; ease with active low an signal
+signal d_sel : std_logic_vector ( 3 downto 0) := "0000";            -- 4-bit data select
+signal cnt   : std_logic_vector (15 downto 0) := (others => '0');   -- counter
 
 begin
     -- instantiate sseg decoder
@@ -85,12 +81,12 @@ begin
     an_proc : process (clk)
     begin
         if (rising_edge(clk)) then
-            --if (tck = '1') then
+            if (tck = '1') then
                 a_sel(3) <= a_sel(2);
                 a_sel(2) <= a_sel(1);
                 a_sel(1) <= a_sel(0);
                 a_sel(0) <= a_sel(3);
-            --end if;
+            end if;
         end if;
     end process an_proc;
 end sseg_driver_arc;

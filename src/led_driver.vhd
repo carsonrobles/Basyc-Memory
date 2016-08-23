@@ -11,24 +11,25 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
+-- displays a celebration pattern after winning the game
 entity led_driver is
     port (
-        clk : in  std_logic;
+        clk : in  std_logic;                        -- clock signal
 
-        en  : in  std_logic;
+        en  : in  std_logic;                        -- pattern plays when enable is high
 
-        led : out std_logic_vector (15 downto 0)
+        led : out std_logic_vector (15 downto 0)    -- pattern output
     );
 end led_driver;
 
 architecture led_driver_arc of led_driver is
 
-signal s_in  : std_logic                      := '1';
-signal tck   : std_logic                      := '0';
-signal cnt_p : std_logic_vector ( 3 downto 0) := x"0";
-signal led_l : std_logic_vector ( 7 downto 0) := x"00";
-signal led_r : std_logic_vector ( 7 downto 0) := x"00";
-signal cnt   : std_logic_vector (22 downto 0) := (others => '0');
+signal s_in  : std_logic                      := '1';               -- shift register in bit
+signal tck   : std_logic                      := '0';               -- pulses when to shift in the next bit
+signal cnt_p : std_logic_vector ( 3 downto 0) := x"0";              -- 4-bit counter to generate shift in bit
+signal led_l : std_logic_vector ( 7 downto 0) := x"00";             -- left half of output
+signal led_r : std_logic_vector ( 7 downto 0) := x"00";             -- right half of output
+signal cnt   : std_logic_vector (22 downto 0) := (others => '0');   -- counter to determine when to pulse tck
 
 begin
     -- assign both halves to led when enabled
@@ -91,16 +92,8 @@ begin
     begin
         if (rising_edge(clk)) then
             if (tck = '1') then
-                led_l <= led_l(6 downto 0) & s_in;
-                led_r <= s_in & led_r(7 downto 1);
-                --led_l(7) <= led_l(6);
-                --led_l(6) <= led_l(5);
-                --led_l(5) <= led_l(4);
-                --led_l(4) <= led_l(3);
-                --led_l(3) <= led_l(2);
-                --led_l(2) <= led_l(1);
-                --led_l(1) <= led_l(0);
-                --led_l(0) <= s_in;
+                led_l <= led_l(6 downto 0) & s_in;      -- left shift and concatenate s_in bit
+                led_r <= s_in & led_r(7 downto 1);      -- right shift and concatenate s_in bit
             end if;
         end if;
     end process led_proc;

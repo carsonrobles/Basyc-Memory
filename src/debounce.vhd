@@ -11,9 +11,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
+-- debounces a button signal
 entity debounce is
     port (
-        clk : in  std_logic;        -- clock signal
+        clk   : in  std_logic;      -- clock signal
 
         btn_i : in  std_logic;      -- btn input
 
@@ -23,12 +24,9 @@ end debounce;
 
 architecture debounce_arch of debounce is
 
--- 3 bit shift register
-signal shft : std_logic_vector (2 downto 0) := "000";
--- 6 bit counter to induce 'tck' pulse
-signal cnt  : std_logic_vector (5 downto 0) := "000000";
--- tick signal to sample button
-signal tck  : std_logic;
+signal shft : std_logic_vector (2 downto 0) := "000";       -- 3 bit shift register
+signal cnt  : std_logic_vector (5 downto 0) := "000000";    -- 6 bit counter to induce 'tck' pulse
+signal tck  : std_logic;                                    -- tick signal to sample button
 
 begin
     -- output high when shift register == 'b111
