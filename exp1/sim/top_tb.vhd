@@ -21,6 +21,8 @@ component basyc_memory_top is
         clk : in  std_logic;                            -- clock input
         rst : in  std_logic;                            -- reset signal
 
+        btn : in  std_logic_vector ( 3 downto 0);       -- button inputs
+
         an  : out std_logic_vector ( 3 downto 0);       -- anode out
         seg : out std_logic_vector ( 7 downto 0);       -- cathode out
 
@@ -30,8 +32,9 @@ end component basyc_memory_top;
 
 -- declare test signals to drive module ports
 signal rst : std_logic;
-signal an  : std_logic_vector (3 downto 0);
-signal seg : std_logic_vector (7 downto 0);
+signal btn : std_logic_vector ( 3 downto 0);
+signal an  : std_logic_vector ( 3 downto 0);
+signal seg : std_logic_vector ( 7 downto 0);
 signal led : std_logic_vector (15 downto 0);
 
 -- for designs with a clock uncomment the following lines
@@ -45,6 +48,7 @@ begin
         -- map ports...
         clk => clk,
         rst => rst,
+        btn => btn,
         an  => an,
         seg => seg,
         led => led
@@ -63,12 +67,40 @@ begin
     begin
         -- assign test signals and use 'wait for 10ns' and 'wait' (after final test)
         rst <= '0';
+        btn <= "0000";
         wait for 23 ns;
 
         rst <= '1';
         wait for 100 ns;
 
         rst <= '0';
+        wait for 700 ns;
+
+        btn <= "1000";
+        wait for 100 ns;
+
+        btn <= "0001";
+        wait for 100 ns;
+
+        btn <= "0010";
+        wait for 100 ns;
+
+        btn <= "0100";
+        wait for 100 ns;
+
+        btn <= "1000";
+        wait for 100 ns;
+
+        btn <= "0001";
+        wait for 100 ns;
+
+        btn <= "0010";
+        wait for 100 ns;
+
+        btn <= "0100";
+        wait for 100 ns;
+
+        btn <= "0000";
         wait;
     end process;
 end test_bench;

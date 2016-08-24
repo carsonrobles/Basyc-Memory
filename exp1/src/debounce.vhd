@@ -25,7 +25,8 @@ end debounce;
 architecture debounce_arch of debounce is
 
 signal shft : std_logic_vector (2 downto 0) := "000";       -- 3 bit shift register
-signal cnt  : std_logic_vector (5 downto 0) := "000000";    -- 6 bit counter to induce 'tck' pulse
+--signal cnt  : std_logic_vector (5 downto 0) := "000000";    -- 6 bit counter to induce 'tck' pulse
+signal cnt  : std_logic := '0';
 signal tck  : std_logic;                                    -- tick signal to sample button
 
 begin
@@ -36,7 +37,8 @@ begin
 
     -- tck high when cnt == 'b111111
     with cnt select
-        tck <= '1' when "111111",
+        --tck <= '1' when "111111",
+        tck <= '1' when '1',
                '0' when others;
 
     -- handle counter
@@ -45,9 +47,11 @@ begin
     begin
         if (rising_edge(clk)) then
             if (btn_i = '0') then
-                cnt <= "000000";
+                --cnt <= "000000";
+                cnt <= '0';
             else
-                cnt <= cnt + '1';
+                --cnt <= cnt + '1';
+                cnt <= not cnt;
             end if;
         end if;
     end process cnt_proc;
