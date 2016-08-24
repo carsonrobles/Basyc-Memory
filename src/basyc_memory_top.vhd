@@ -12,7 +12,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
 
 -- top level module for Basyc Memory game
-entity test_top is
+entity basyc_memory_top is
     port (
         clk : in  std_logic;                            -- clock input
         rst : in  std_logic;                            -- reset signal
@@ -22,9 +22,9 @@ entity test_top is
 
         led : out std_logic_vector (15 downto 0)        -- led out
     );
-end test_top;
+end basyc_memory_top;
 
-architecture basyc_memory_top_arc of test_top is
+architecture basyc_memory_top_arc of basyc_memory_top is
 
 -- declare seven segment driver
 component sseg_driver is
@@ -156,7 +156,9 @@ begin
 
     -- assign tick signal to pulse every second
     with cnt_d(2 downto 0) select
-        tck <= '1' when "111", --x"5f5e100",
+    --with cnt_d select
+        tck <= '1' when "111",
+        --tck <= '1' when x"5f5e101",
                '0' when others;
 
     -- handle counter when in delay
@@ -208,7 +210,7 @@ begin
             when delay =>
                 -- stay in delay until tck signal
                 if (tck = '1') then
-                    if (lvl_c = "111") then
+                    if (lvl_c = "000") then
                         fsm_d <= win;
                     else
                         fsm_d <= write;

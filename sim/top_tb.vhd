@@ -16,7 +16,7 @@ end top_tb;
 
 -- sim architecture
 architecture test_bench of top_tb is
-component test_top is
+component basyc_memory_top is
     port (
         clk : in  std_logic;                            -- clock input
         rst : in  std_logic;                            -- reset signal
@@ -26,7 +26,7 @@ component test_top is
 
         led : out std_logic_vector (15 downto 0)        -- led out
     );
-end component test_top;
+end component basyc_memory_top;
 
 -- declare test signals to drive module ports
 signal rst : std_logic;
@@ -41,7 +41,7 @@ constant CLK_PERIOD : time := 10 ns;
 
 begin
     -- map uut (unit under test) ports to your test signals
-    uut: test_top port map (
+    uut: basyc_memory_top port map (
         -- map ports...
         clk => clk,
         rst => rst,
