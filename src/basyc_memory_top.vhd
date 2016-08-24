@@ -146,7 +146,6 @@ begin
     -- assign sseg enable signal
     with fsm select
         ss_en <= '1' when delay,
-                 '1' when write,
                  '0' when others;
 
     -- assign led enable signal when in win state
@@ -155,10 +154,10 @@ begin
                   '0' when others;
 
     -- assign tick signal to pulse every second
-    with cnt_d(2 downto 0) select
-    --with cnt_d select
-        tck <= '1' when "111",
-        --tck <= '1' when x"5f5e101",
+    --with cnt_d(2 downto 0) select             -- uncomment for sim
+    with cnt_d select
+        --tck <= '1' when "111",                -- uncomment for sim
+        tck <= '1' when x"5f5e101",
                '0' when others;
 
     -- handle counter when in delay
