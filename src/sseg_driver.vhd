@@ -37,7 +37,7 @@ end component sseg_dcdr;
 signal tck   : std_logic                      := '0';               -- tick signal pulses when to switch anodes
 signal a_sel : std_logic_vector ( 3 downto 0) := "0001";            -- temp anode select signal; ease with active low an signal
 signal d_sel : std_logic_vector ( 3 downto 0) := "0000";            -- 4-bit data select
-signal cnt   : std_logic_vector (15 downto 0) := (others => '0');   -- counter
+signal cnt   : std_logic_vector (16 downto 0) := (others => '0');   -- counter
 
 begin
     -- instantiate sseg decoder
@@ -69,7 +69,7 @@ begin
     tck_proc : process (clk)
     begin
         if (rising_edge(clk)) then
-            if (cnt = x"ffff") then
+            if (cnt = x"1ffff") then
                 tck <= '1';
             else
                 tck <= '0';
