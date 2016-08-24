@@ -2,8 +2,8 @@
 -----------------------------------------
 --                                     --
 -- Engineer:    Carson Robles          --
--- Create Date: 08/16/2016 11:59:00 AM --
--- Description: button debouncer tb    --
+-- Create Date: 08/18/2016 11:00:00 PM --
+-- Description: top test bench         --
 --                                     --
 -----------------------------------------
 
