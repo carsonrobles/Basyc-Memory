@@ -20,7 +20,7 @@ entity ram is
         d_in  : in  std_logic_vector (1 downto 0);
         addr  : in  std_logic_vector (2 downto 0);
 
-        d_out : out std_logic_vector (1 downto 0)
+        d_out : out std_logic_vector (1 downto 0) := "11"
     );
 end ram;
 

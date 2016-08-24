@@ -16,6 +16,7 @@ entity sseg_driver is
     port (
         clk  : in  std_logic;                           -- clock signal
 
+        en   : in  std_logic;                           -- enable signal
         data : in  std_logic_vector (15 downto 0);      -- input data
 
         an   : out std_logic_vector ( 3 downto 0);      -- anode out
@@ -46,8 +47,10 @@ begin
         seg => seg
     );
 
-    -- assign active low an to active high temp signal
-    an <= not a_sel;
+    -- assign active low an to active high temp signal, turn off when en == 0
+    with en select
+        an <= not a_sel when '1',
+              "1111"    when others;
 
     -- select window of data to decode
     with a_sel select

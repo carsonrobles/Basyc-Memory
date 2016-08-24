@@ -63,7 +63,7 @@ begin
     begin
         -- assign test signals and use 'wait for 10ns' and 'wait' (after final test)
         rst <= '0';
-        wait for 20 ns;
+        wait for 23 ns;
 
         rst <= '1';
         wait for 100 ns;
