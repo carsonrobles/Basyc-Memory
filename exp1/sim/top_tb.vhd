@@ -67,24 +67,16 @@ begin
     begin
         -- assign test signals and use 'wait for 10ns' and 'wait' (after final test)
         rst <= '0';
-        btn <= "0000";
-        wait for 23 ns;
+        btn <= "0100";
+        wait for 230 ns;
 
         rst <= '1';
+        btn <= "0010";
         wait for 100 ns;
 
         rst <= '0';
         wait for 700 ns;
 
-        btn <= "1000";
-        wait for 100 ns;
-
-        btn <= "0001";
-        wait for 100 ns;
-
-        btn <= "0010";
-        wait for 100 ns;
-
         btn <= "0100";
         wait for 100 ns;
 
@@ -100,7 +92,24 @@ begin
         btn <= "0100";
         wait for 100 ns;
 
-        btn <= "0000";
+        btn <= "1000";
+        wait for 100 ns;
+
+        btn <= "0001";
+        wait for 100 ns;
+
+        btn <= "0010";
+        wait for 100 ns;
+
+        rst <= '1';
+        wait for 100 ns;
+
+        rst <= '0';
+        wait for 50 ns;
+
+        rst <= '1';
+        wait for 100 ns;
+
         wait;
     end process;
 end test_bench;

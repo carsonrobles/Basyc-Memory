@@ -1,0 +1,15 @@
+#
+# An unexpected error has occurred (6)
+#
+Stack:
+/lib/x86_64-linux-gnu/libc.so.6(+0x354a0) [0x7fca96b7b4a0]
+/lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38) [0x7fca96b7b418]
+/lib/x86_64-linux-gnu/libc.so.6(abort+0x16a) [0x7fca96b7d01a]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/libstdc++.so.6(_ZN9__gnu_cxx27__verbose_terminate_handlerEv+0x155) [0x7fca97184a95]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/libstdc++.so.6(+0x5dc06) [0x7fca97182c06]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/libstdc++.so.6(+0x5dc33) [0x7fca97182c33]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/libstdc++.so.6(__cxa_rethrow+0x46) [0x7fca97182ea6]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/libtcmalloc.so.4(operator new[](unsigned long)+0x1ea) [0x7fca983d141a]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/librdi_common.so(HI18N::Convert::Out(char const*, char const*, std::basic_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t> >&, std::codecvt<wchar_t, char, __mbstate_t> const&)+0x5f) [0x7fca9797221f]
+/opt/Xilinx/Vivado/2016.2/lib/lnx64.o/librdi_labtools.so(Java_ui_data_labtools_lthwdatai_HWDevice_1getHexIDCode+0x32) [0x7fca6bc15792]
+[0x7fca5498a994]

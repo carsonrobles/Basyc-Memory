@@ -233,21 +233,18 @@ begin
     );
 
     -- assign data sent to sseg
-    with fsm select
-        ss_dat <= "0000100001000111"       when idle,           -- displays "idle"
-                  "0100010101100111"       when lose,           -- displays "lose"
-                  "11111111111100" & d_out when others;         -- displays number
+    ss_dat <= "11111111111100" & d_out;
 
     -- assign sseg enable signal
     with fsm select
         ss_en <= '1' when delay,
-                 '1' when idle,
                  '1' when lose,
                  '0' when others;
 
 -- ---------- SSEG LOGIC ---------- --
 
 -- ---------- LED LOGIC ---------- --
+
     -- instantiate led driver
     ld : led_driver port map (
         clk => clk,
@@ -280,8 +277,10 @@ begin
     end process cmp_proc;
 
     -- assign tick signal to pulse every second
-    with cnt_d select
-        tck <= '1' when x"5f5e101",
+    with cnt_d(2 downto 0) select             -- uncomment for sim
+    --with cnt_d select
+        tck <= '1' when "111",                -- uncomment for sim
+        --tck <= '1' when x"5f5e101",
                '0' when others;
 
     -- handle counter when in delay
