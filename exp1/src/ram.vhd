@@ -18,7 +18,7 @@ entity ram is
 
         wr_en : in  std_logic;
         d_in  : in  std_logic_vector (1 downto 0);
-        addr  : in  std_logic_vector (2 downto 0);
+        addr  : in  std_logic_vector (3 downto 0);
 
         d_out : out std_logic_vector (1 downto 0) := "11"
     );
@@ -27,7 +27,7 @@ end ram;
 architecture ram_arc of ram is
 
 -- define internal ram array type
-type ram_t is array (0 to 7) of std_logic_vector (1 downto 0);
+type ram_t is array (0 to 15) of std_logic_vector (1 downto 0);
 
 -- declare internal memory and initialize to 0
 signal mem : ram_t := (others => (others => '0'));

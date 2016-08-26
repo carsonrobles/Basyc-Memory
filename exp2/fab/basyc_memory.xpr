@@ -3,7 +3,7 @@
 <!--                                                         -->
 <!-- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="14" Path="/home/carson/School/cpe133/Basyc-Memory/exp1/fab/basyc_memory.xpr">
+<Project Version="7" Minor="14" Path="/home/carson/School/cpe133/Basyc-Memory/exp2/fab/basyc_memory.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="d613b96ad9db4ee796b231e917285cea"/>
@@ -23,7 +23,7 @@
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
     <Option Name="EnableCoreContainer" Val="FALSE"/>
     <Option Name="CreateRefXciForCoreContainers" Val="FALSE"/>
-    <Option Name="IPUserFilesDir" Val="$PPRDIR/basyc_memory.ip_user_files"/>
+    <Option Name="IPUserFilesDir" Val="$PPRDIR/../../exp1/fab/basyc_memory.ip_user_files"/>
     <Option Name="IPStaticSourceDir" Val="$PPRDIR/basyc_memory.ip_user_files/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="WTXSimLaunchSim" Val="238"/>
