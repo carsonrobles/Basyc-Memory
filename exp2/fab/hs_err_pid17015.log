@@ -1,0 +1,14 @@
+#
+# An unexpected error has occurred (6)
+#
+Stack:
+/lib/x86_64-linux-gnu/libc.so.6(+0x354a0) [0x7f9428db24a0]
+/lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38) [0x7f9428db2418]
+/lib/x86_64-linux-gnu/libc.so.6(abort+0x16a) [0x7f9428db401a]
+/lib/x86_64-linux-gnu/libc.so.6(+0x2dbd7) [0x7f9428daabd7]
+/lib/x86_64-linux-gnu/libc.so.6(+0x2dc82) [0x7f9428daac82]
+/usr/lib/x86_64-linux-gnu/libX11.so.6(+0x3d199) [0x7f94202ab199]
+/usr/lib/x86_64-linux-gnu/libX11.so.6(+0x3d24b) [0x7f94202ab24b]
+/usr/lib/x86_64-linux-gnu/libX11.so.6(_XEventsQueued+0x5d) [0x7f94202ab55d]
+/usr/lib/x86_64-linux-gnu/libX11.so.6(XFlush+0x1a) [0x7f942028ce4a]
+[0x7f93e6bc1994]

@@ -60,11 +60,11 @@ end component sseg_driver;
         --num : out std_logic_vector (1 downto 0)         -- random output between 0 and 3
     --);
 --end component rand;
-signal rand : std_logic_vector (7 downto 0) := (others => '0');
+
 component RanNum is
     port (
       clk : in std_logic;
-      random_num : out std_logic_vector (7 downto 0)   --output vector
+      rand : out std_logic_vector (1 downto 0)
     );
 end component RanNum;
 
@@ -290,10 +290,8 @@ begin
     --);
     r_gen : RanNum port map (
         clk => clk,
-        random_num => rand
+        rand => d_in
     );
-
-    d_in <= rand(1 downto 0);
 
     -- compare signal high when data out == button value
     cmp_proc : process (d_out, b_val)

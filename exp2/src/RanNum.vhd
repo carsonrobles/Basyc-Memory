@@ -37,12 +37,18 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity RanNum is
     port (
       clk : in std_logic;
-      random_num : out std_logic_vector (7 downto 0)   --output vector            
+      --random_num : out std_logic_vector (7 downto 0)   --output vector            
+      rand : out std_logic_vector (1 downto 0)
     );
 end RanNum;
 
 architecture Behavioral of RanNum is
+
+signal random_num : std_logic_vector (7 downto 0);
+
 begin
+    rand <= random_num(1 downto 0);
+
     process(clk)
     variable rand_temp : std_logic_vector(7 downto 0):=(7 => '1',others => '0');
     variable temp : std_logic := '0';
