@@ -68,9 +68,9 @@ component ram is
 
         wr_en : in  std_logic;
         d_in  : in  std_logic_vector (1 downto 0);
-        addr  : in  std_logic_vector (2 downto 0);
+        addr  : in  std_logic_vector (3 downto 0);
 
-        d_out : out std_logic_vector (1 downto 0)
+        d_out : out std_logic_vector (1 downto 0) := "11"
     );
 end component ram;
 
@@ -93,7 +93,7 @@ signal fsm, fsm_d : state_t                        := idle;
 
 -- game signals
 signal tck        : std_logic;
-signal lvl_c      : std_logic_vector ( 2 downto 0) := "000";
+signal lvl_c      : std_logic_vector ( 3 downto 0) := "0000";
 signal cnt_d      : std_logic_vector (26 downto 0) := (others => '0');
 
 -- sseg enable
@@ -109,7 +109,7 @@ signal led_en     : std_logic                      := '0';
 signal wr_en      : std_logic                      := '0';
 signal d_in       : std_logic_vector ( 1 downto 0);
 signal d_out      : std_logic_vector ( 1 downto 0);
-signal addr       : std_logic_vector ( 2 downto 0);
+signal addr       : std_logic_vector ( 3 downto 0);
 
 -- button signals
 signal b_act      : std_logic;
@@ -305,9 +305,9 @@ begin
             if ((wr_en = '1') or (fsm = comp)) then
                 lvl_c <= lvl_c + 1;
             elsif ((fsm_d = wait_b) and (fsm = delay)) then
-                lvl_c <= "001";
+                lvl_c <= "0001";
             elsif (fsm = idle) then
-                lvl_c <= "000";
+                lvl_c <= "0000";
             end if;
         end if;
     end process lvl_proc;
@@ -341,7 +341,7 @@ begin
             when delay =>
                 -- stay in delay until tck signal
                 if (tck = '1') then
-                    if (lvl_c = "000") then
+                    if (lvl_c = "0000") then
                         fsm_d <= wait_b;
                     else
                         fsm_d <= write;
@@ -357,7 +357,7 @@ begin
                 end if;
             when comp =>
                 if (cmp = '1') then
-                    if (lvl_c = "000") then
+                    if (lvl_c = "0000") then
                         fsm_d <= win;
                     else
                         fsm_d <= wait_b;
