@@ -64,7 +64,7 @@ signal rand : std_logic_vector (7 downto 0) := (others => '0');
 component RanNum is
     port (
       clk : in std_logic;
-      random_num : out std_logic_vector (7 downto 0)   --output vector            
+      random_num : out std_logic_vector (7 downto 0)   --output vector
     );
 end component RanNum;
 
@@ -93,15 +93,17 @@ component led_driver is
 end component led_driver;
 
 -- state type definition
-type state_t is (idle, write, delay, wait_b, comp, win, lose);
+type state_t is (idle, write, delay, flkr, wait_b, comp, win, lose);
 
 -- present and next state signals
 signal fsm, fsm_d : state_t                        := idle;
 
 -- game signals
+signal flk        : std_logic;
 signal tck        : std_logic;
 signal lvl_c      : std_logic_vector ( 3 downto 0) := "0000";
 signal lvl_g      : std_logic_vector ( 3 downto 0) := "0010";
+signal cnt_f      : std_logic_vector (23 downto 0) := (others => '0');
 signal cnt_d      : std_logic_vector (26 downto 0) := (others => '0');
 
 -- sseg enable
@@ -308,8 +310,13 @@ begin
         tck <= '1' when x"5f5e101",
                '0' when others;
 
+    -- assign flicker signal to pulse after a small delay
+    with cnt_f select
+        flk <= '1' when x"ffffff",
+               '0' when others;
+
     -- handle counter when in delay
-    cnt_proc : process (clk)
+    del_proc : process (clk)
     begin
         if (rising_edge(clk)) then
             -- increment counter when in delay, clear otherwise
@@ -319,7 +326,20 @@ begin
                 cnt_d <= (others => '0');
             end if;
         end if;
-    end process cnt_proc;
+    end process del_proc;
+
+    -- handle flicker delay
+    flk_proc : process (clk)
+    begin
+        if (rising_edge(clk)) then
+            -- increment counter when in flicker, clear otherwise
+            if (fsm = flkr) then
+                cnt_f <= cnt_f + 1;
+            else
+                cnt_f <= (others => '0');
+            end if;
+        end if;
+    end process flk_proc;
 
     -- handle level: inc after write signal asserted
     lvl_proc : process (clk, wr_en)
@@ -358,7 +378,7 @@ begin
     end process fsm_proc;
 
     -- combinatorial fsm logic
-    comb_proc : process (fsm, rst_p, tck, lvl_c, lvl_g, psh, b_val, d_out, cmp)
+    comb_proc : process (fsm, rst_p, tck, flk, lvl_c, lvl_g, psh, b_val, d_out, cmp)
     begin
         case (fsm) is
             when idle =>
@@ -377,10 +397,17 @@ begin
                     if (lvl_c = (lvl_g + 1)) then
                         fsm_d <= wait_b;
                     else
-                        fsm_d <= write;
+                        fsm_d <= flkr;
                     end if;
                 else
                     fsm_d <= delay;
+                end if;
+            when flkr =>
+                -- if flicker delay has elapse go to write state
+                if (flk = '1') then
+                    fsm_d <= write;
+                else
+                    fsm_d <= flkr;
                 end if;
             when wait_b =>
                 if (psh = '1') then
