@@ -9,7 +9,6 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
 
 -- outputs a random 2-bit number
 entity rand is
@@ -22,19 +21,18 @@ end rand;
 
 architecture rand_arc of rand is
 
--- continuously counts
-signal cnt : std_logic_vector (1 downto 0) := "00";
+-- shift reg, start with any non 0 value
+signal lfsr : std_logic_vector (3 downto 0) := x"c";
 
 begin
-    -- assign random output to cnt, appears random if sample periods are spread out
-    num <= cnt;
+    -- grab 2 least significant bits off of 4 bit lfsr register
+    num <= lfsr(1 downto 0);
 
-    -- increments cnt
-    cnt_proc : process (clk)
+    lfsr_proc : process (clk)
     begin
         if (rising_edge(clk)) then
-            cnt <= cnt + 1;
+            lfsr <= lfsr(2 downto 0) & (lfsr(3) xor lfsr(2));
         end if;
-    end process cnt_proc;
+    end process lfsr_proc;
 end rand_arc;
 

@@ -53,20 +53,13 @@ component sseg_driver is
 end component sseg_driver;
 
 -- declare rand
---component rand is
-    --port (
-        --clk : in  std_logic;
-
-        --num : out std_logic_vector (1 downto 0)         -- random output between 0 and 3
-    --);
---end component rand;
-
-component RanNum is
+component rand is
     port (
-      clk : in std_logic;
-      rand : out std_logic_vector (1 downto 0)
+        clk : in  std_logic;
+
+        num : out std_logic_vector (1 downto 0)         -- random output between 0 and 3
     );
-end component RanNum;
+end component rand;
 
 -- declare ram
 component ram is
@@ -284,13 +277,9 @@ begin
 -- ---------- OTHER GAME LOGIC ---------- --
 
     -- instantiate rand number generator
-    --r_gen : rand port map (
-        --clk => clk,
-        --num => d_in
-    --);
-    r_gen : RanNum port map (
+    r_gen : rand port map (
         clk => clk,
-        rand => d_in
+        num => d_in
     );
 
     -- compare signal high when data out == button value
