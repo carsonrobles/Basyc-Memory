@@ -103,6 +103,9 @@ signal ss_en      : std_logic                      := '0';
 -- sseg data
 signal ss_dat     : std_logic_vector (15 downto 0) := (others => '0');
 
+-- sseg patterns for buttons
+signal ss_pat     : std_logic_vector (15 downto 0);
+
 -- led win enable
 signal led_en     : std_logic                      := '0';
 
@@ -235,9 +238,16 @@ begin
 
     -- assign data sent to sseg
     with fsm select
-        ss_dat <= "0000100001000111"       when idle,           -- displays "idle"
-                  "0100010101100111"       when lose,           -- displays "lose"
-                  "11111111111100" & d_out when others;         -- displays number
+        ss_dat <= "0000100001000111" when idle,           -- displays "idle"
+                  "0100010101100111" when lose,           -- displays "lose"
+                  ss_pat             when others;         -- displays button position
+
+    -- get bar pattern from number value
+    with d_out select
+        ss_pat <= "1010101010101010" when "00",
+                  "1011111111111111" when "01",
+                  "1001100110011001" when "10",
+                  "1111111111110000" when others;
 
     -- assign sseg enable signal
     with fsm select
