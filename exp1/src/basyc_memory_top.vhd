@@ -356,6 +356,7 @@ begin
                     fsm_d <= wait_b;
                 end if;
             when comp =>
+                -- if not equal lose
                 if (cmp = '1') then
                     if (lvl_c = "0000") then
                         fsm_d <= win;
@@ -366,12 +367,14 @@ begin
                     fsm_d <= lose;
                 end if;
             when win =>
+                -- if reset go to idle
                 if (rst_p = '1') then
                     fsm_d <= idle;
                 else
                     fsm_d <= win;
                 end if;
             when lose =>
+                -- if reset go to idle
                 if (rst_p = '1') then
                     fsm_d <= idle;
                 else

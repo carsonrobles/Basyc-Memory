@@ -68,9 +68,9 @@ component ram is
 
         wr_en : in  std_logic;
         d_in  : in  std_logic_vector (1 downto 0);
-        addr  : in  std_logic_vector (2 downto 0);
+        addr  : in  std_logic_vector (3 downto 0);
 
-        d_out : out std_logic_vector (1 downto 0)
+        d_out : out std_logic_vector (1 downto 0) := "11"
     );
 end component ram;
 
@@ -110,7 +110,7 @@ signal led_en     : std_logic                      := '0';
 signal wr_en      : std_logic                      := '0';
 signal d_in       : std_logic_vector ( 1 downto 0);
 signal d_out      : std_logic_vector ( 1 downto 0);
-signal addr       : std_logic_vector ( 2 downto 0);
+signal addr       : std_logic_vector ( 3 downto 0);
 
 -- button signals
 signal b_act      : std_logic;
@@ -303,15 +303,17 @@ begin
     begin
         if (rising_edge(clk)) then
             -- inc lvl_c when moving out of write state
-            if ((wr_en = '1') or (fsm = comp)) then
-                lvl_c <= lvl_c + 1;
+            if (fsm = idle) then
+                lvl_c <= "0000";
             elsif ((fsm_d = wait_b) and (fsm = delay)) then
                 lvl_c <= "0001";
-            elsif (fsm = idle) then
+            elsif ((fsm = comp) and (fsm_d = write)) then
                 lvl_c <= "0000";
+            elsif ((wr_en = '1') or (fsm = comp)) then
+                lvl_c <= lvl_c + 1;
             end if;
 
-            -- reset game level in idle, increment on change from input to disp
+            -- reset lvl_g in idle, inc lvl_g when moving from input to display states
             if (fsm = idle) then
                 lvl_g <= "0010";
             elsif ((fsm = comp) and (fsm_d = write)) then
@@ -333,7 +335,7 @@ begin
     end process fsm_proc;
 
     -- combinatorial fsm logic
-    comb_proc : process (fsm, rst_p, tck, lvl_c, psh, b_val, d_out, cmp)
+    comb_proc : process (fsm, rst_p, tck, lvl_c, lvl_g, psh, b_val, d_out, cmp)
     begin
         case (fsm) is
             when idle =>
@@ -349,7 +351,7 @@ begin
             when delay =>
                 -- stay in delay until tck signal
                 if (tck = '1') then
-                    if (lvl_c = "0000") then
+                    if (lvl_c = (lvl_g + 1)) then
                         fsm_d <= wait_b;
                     else
                         fsm_d <= write;
@@ -364,11 +366,11 @@ begin
                     fsm_d <= wait_b;
                 end if;
             when comp =>
-                -- if the entered number is incorrect lose
+                -- if not equal lose
                 if (cmp = '1') then
-                    -- if pattern complete and full length win
-                    if (lvl_c = lvl_g) then
-                        if (lvl_g = "0000") then
+                    -- if current equals game leve check for win
+                    if (lvl_c = (lvl_g + 1)) then
+                        if (lvl_g = "1111") then
                             fsm_d <= win;
                         else
                             fsm_d <= write;
@@ -380,12 +382,14 @@ begin
                     fsm_d <= lose;
                 end if;
             when win =>
+                -- if reset go to idle
                 if (rst_p = '1') then
                     fsm_d <= idle;
                 else
                     fsm_d <= win;
                 end if;
             when lose =>
+                -- if reset go to idle
                 if (rst_p = '1') then
                     fsm_d <= idle;
                 else
