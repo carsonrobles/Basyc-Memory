@@ -1,2 +1,6 @@
 # Basyc-Memory
-A pattern memory game designed for the Basys3 board.
+
+status: complete
+
+A pattern-based memory game designed for the Digilent Basys3 board.
+
